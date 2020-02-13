@@ -9,6 +9,11 @@ var ArticleSchema = new Schema({
     type: String,
     required: true
   },
+  //'blurb' is required and of type String
+  blurb: {
+    type: String,
+    required: true
+  },
   // `link` is required and of type String
   link: {
     type: String,

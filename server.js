@@ -1,3 +1,5 @@
+console.log("hello");
+
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");

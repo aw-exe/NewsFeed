@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{title}}</h5>
+                <p class="card-text">{{summary}}</p>
+                <a href="{{link}}" target="_blank" class="card-link">{{link}}</a><br>
+                <button type="button" class="btn btn-dark delete" data-id={{_id}}>Delete from Saved</button><br>
+                <button type="button" class="btn btn-dark addNote" data-toggle="modal" data-target="#noteModal{{_id}}" data-id={{_id}}>Add/View Notes</button>
+            </div>
+        </div>
+    </div>
+</div>

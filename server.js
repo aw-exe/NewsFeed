@@ -118,6 +118,16 @@ app.get("/", function(req, res){
   }).catch(function(err){ res.json(err) });
 });
 
+app.get(`/articles`, function(req, res){
+  db.Article.find({}).then(function(data){
+
+      res.json(data);
+      
+  }).catch(function(error){
+      res.json(error);
+  });
+});
+
 // Displays saved articles
 app.get("/saved", function(req, res) {
   db.Article.find({"saved": true})

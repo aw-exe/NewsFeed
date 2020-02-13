@@ -73,5 +73,5 @@ $(".deleteNote").on("click", function() {
         console.log(data);
         window.location = "/saved"
       })
-})
+});
   

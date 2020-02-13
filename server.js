@@ -1,7 +1,7 @@
 // Require installed packages
 var express = require("express");
-var exphbs  = require('express-handlebars');
-var path = require ('path');
+var exphbs  = require("express-handlebars");
+var path = require ("path");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
@@ -21,7 +21,7 @@ var app = express();
 //Initialize Express-Handlebars
 app.engine('handlebars', exphbs({
   defaultLayout: "main",
-  partialsDir: path.join(__dirname, "views/layout/partials")
+  partialsDir: path.join(__dirname, "views/layouts/partials")
 }));
 app.set('view engine', 'handlebars');
  
@@ -118,6 +118,70 @@ app.get("/", function(req, res){
   }).catch(function(err){ res.json(err) });
 });
 
+// Displays saved articles
+app.get("/saved", function(req, res) {
+  db.Article.find({"saved": true})
+      .populate("notes")
+      .then(function(result){
+      var hbsObject = { articles: result };
+      res.render("saved",hbsObject);
+  }).catch(function(err){ res.json(err) });
+});
+
+
+// Posts saved articles 
+app.post("/saved/:id", function(req, res) {
+  db.Article.findOneAndUpdate({"_id": req.params.id}, {"$set": {"saved": true}})
+  .then(function(result) {
+      res.json(result);
+  }).catch(function(err){ res.json(err) });
+})
+
+// Deletes specific articles from "Saved Articles" and puts them back on the homepage
+app.post("/delete/:id", function(req, res){
+  db.Article.findOneAndUpdate({"_id": req.params.id}, {"$set": {"saved": false}})
+  .then(function(result){
+      res.json(result);
+  }).catch(function(err) { res.json(err) });
+});
+
+// Grabs a specific article by id and populates it with it's note(s)
+app.get("/articles/:id", function(req, res) {
+  db.Article.findOne({"_id": req.params.id })
+    .populate("notes")
+    .then(function(result) {
+      res.json(result);
+    }).catch(function(err) { res.json(err); });
+});
+
+// Creates an article's associated note(s)
+app.post("/articles/:id", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  db.Note.create(req.body)
+    .then(function(dbNote) {
+      // If a Note was created, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
+      return db.Article.findOneAndUpdate({"_id": req.params.id }, {"notes": dbNote._id }, { new: true });
+    })
+    .then(function(dbArticle) {
+      // If we were able to successfully update an Article, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
+});
+
+// Deletes a Note
+app.post("/deleteNote/:id", function(req, res){
+  db.Note.remove({"_id": req.params.id})
+    .then(function(result){
+      res.json(result);
+    })
+    .catch(function(err) { 
+      res.json(err) 
+    });
+});
 
 
 // Start the server

@@ -9,8 +9,13 @@
 
     <div id="articles">
         {{#each articles}}
-            {{> articles }}
+            {{> savedArticles }}
         {{/each}}
     </div>
+
+    {{!-- Modal for notes --}}
+    {{#each articles}}
+        {{> modals }}
+    {{/each}}
 
 </body>

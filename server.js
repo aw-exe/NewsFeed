@@ -122,7 +122,7 @@ app.get(`/articles`, function(req, res){
   db.Article.find({}).then(function(data){
 
       res.json(data);
-      
+
   }).catch(function(error){
       res.json(error);
   });
@@ -137,6 +137,7 @@ app.get("/saved", function(req, res) {
       res.render("saved",hbsObject);
   }).catch(function(err){ res.json(err) });
 });
+
 
 
 // Posts saved articles 

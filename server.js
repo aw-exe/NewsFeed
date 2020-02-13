@@ -10,7 +10,7 @@ var axios = require("axios");
 
 
 // Require all models
-var db = require("./models/article");
+var db = require("./models");
 
 var PORT = 3000;
 

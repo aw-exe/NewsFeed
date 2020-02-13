@@ -1,6 +1,7 @@
 // Require installed packages
 var express = require("express");
 var exphbs  = require('express-handlebars');
+var path = require ('path');
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
@@ -18,12 +19,12 @@ var PORT = process.env.PORT || 3000;
 var app = express();
 
 //Initialize Express-Handlebars
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs({
+  defaultLayout: "main",
+  partialsDir: path.join(__dirname, "views/layout/partials")
+}));
 app.set('view engine', 'handlebars');
  
-app.get('/', function (req, res) {
-    res.render('home');
-});
 
 // Configure Morgan Middleware - use for logging requests
 app.use(logger("dev"));

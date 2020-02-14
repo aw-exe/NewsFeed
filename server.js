@@ -110,11 +110,12 @@ app.get("/scrape", function(req, res) {
 // Shows all unsaved articles on homepage
 //hbs is short for handlebars
 app.get("/", function(req, res){
-  db.Article.find({"saved": false}).then(function(result){
+  db.Article.find({"saved": true}).then(function(result){
       // This variable allows us to use handlebars by passing the results 
       // from the database as the value in an object
       var hbsObject = { articles: result };
       res.render("index",hbsObject);
+      console.log(hbsObject);
   }).catch(function(err){ res.json(err) });
 });
 

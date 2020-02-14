@@ -3,7 +3,7 @@ $.getJSON("/articles", function(data) {
     // For each one
     for (var i = 0; i < data.length; i++) {
       // Display the apropos information on the page
-      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+      $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].blurb + "<br />" + data[i].link + "</p>");
     }
   });
   
@@ -32,9 +32,10 @@ $(".delete").on("click", function() {
 
 // Get More Articles Button
 $("#scrape").on("click", function() {
+  console.log("scraped");
   $.ajax({
       method: "GET",
-      url: "/scraped",
+      url: "/scrape",
   }).then(function(data) {
       console.log(data)
       window.location = "/"
